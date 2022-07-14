@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+
 public class buildingManager : MonoBehaviour
 {
     public GameObject[] objects;
@@ -42,6 +43,7 @@ public class buildingManager : MonoBehaviour
 
     public void SelectObject(int index)
     {
+        appManager.instance.StartCoroutine("GetData", "/bases");
         pendingObject = Instantiate(objects[index], pos, transform.rotation);
     }
 }
