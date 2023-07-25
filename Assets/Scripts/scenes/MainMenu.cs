@@ -71,6 +71,7 @@ public class MainMenu : MonoBehaviour
         // if a user is returned let's just log them in 
         User userData = await networkController.PostUser<User>(path, user);
 
+        // TODO don't let user login until email is validated with an email confirmation
         // Process the result as needed
         if (userData != null)
         {
