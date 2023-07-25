@@ -8,4 +8,6 @@ public interface ISerializationOption
     string ContentType { get; }
 // Deserialize the content type into a c# object
     T Deserialize<T>(string text);
+// Serialize a c# object into the content type
+    string Serialize<T>(T obj);
 }
