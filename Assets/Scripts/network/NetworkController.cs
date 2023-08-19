@@ -41,6 +41,7 @@ public class NetworkController : MonoBehaviour
     {
         var endpoint = url + path;
         var result = await networkManager.Post<User, T>(endpoint, requestData);
+        
         // Process the result as needed
         if (result != null)
         {
@@ -50,7 +51,7 @@ public class NetworkController : MonoBehaviour
             // For example, if T is User, then the result will be of type User
             // If T is some other type, then the result will be of that type
             Debug.Log("Response: " + result.ToString());
-            return result;
+            return result.data;
             // Handle the successful result
         }
         else

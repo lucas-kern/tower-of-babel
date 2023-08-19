@@ -1,5 +1,6 @@
 using System;
 using UnityEngine;
+using Newtonsoft.Json;
 
 // This class handles serialization regarding JSON
 // example serialization and deserialization
@@ -16,7 +17,7 @@ public class JsonSerializationOption : ISerializationOption
     {
         try
         {
-            var result = JsonUtility.FromJson<T>(text);
+            var result = JsonConvert.DeserializeObject<T>(text);
             Debug.Log($"Success: {text}");
             return result;
         }
@@ -32,7 +33,7 @@ public class JsonSerializationOption : ISerializationOption
     {
         try
         {
-            var result = JsonUtility.ToJson(obj);
+            var result = JsonConvert.SerializeObject(obj);
             Debug.Log($"Success: {result}");
             return result;
         }

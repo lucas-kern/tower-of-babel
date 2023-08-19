@@ -13,7 +13,7 @@ GameObject:
   - component: {fileID: 2377064286287689883}
   - component: {fileID: 3737770376834917557}
   m_Layer: 0
-  m_Name: Cube
+  m_Name: GoldStorage
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

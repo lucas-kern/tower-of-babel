@@ -12,4 +12,5 @@ public class User
     public string Token;
     public string refreshToken;
     public bool Completed;
+    public Base Base;
 }

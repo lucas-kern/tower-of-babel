@@ -15,7 +15,7 @@ public class NetworkManager
     }
 
 // Make a GET request to an API
-    public async Task<TResultType> Get<TResultType>(string url)
+    public async Task<ApiResponse<TResultType>> Get<TResultType>(string url)
     {
         try
         {
@@ -31,7 +31,7 @@ public class NetworkManager
             if(uwr.result != UnityWebRequest.Result.Success)
                 Debug.LogError($"Failed: {uwr.error}");
 
-            var result = _serializationOption.Deserialize<TResultType>(uwr.downloadHandler.text);
+            var result = _serializationOption.Deserialize<ApiResponse<TResultType>>(uwr.downloadHandler.text);
             return result;
         }
         catch(Exception ex)
@@ -42,7 +42,7 @@ public class NetworkManager
     }
 
     // Make a POST request to an API
-    public async Task<TResultType> Post<TResultType, TRequestType>(string url, TRequestType requestData)
+    public async Task<ApiResponse<TResultType>> Post<TResultType, TRequestType>(string url, TRequestType requestData)
     {
         try
         {
@@ -58,7 +58,7 @@ public class NetworkManager
 
             if (operation.webRequest.responseCode == 200 && uwr.result == UnityWebRequest.Result.Success)
             {
-                var result = _serializationOption.Deserialize<TResultType>(uwr.downloadHandler.text);
+                var result = _serializationOption.Deserialize<ApiResponse<TResultType>>(uwr.downloadHandler.text);
                 return result;
             }
             else
@@ -73,5 +73,4 @@ public class NetworkManager
             return default;
         }
     }
-
 }
