@@ -35,7 +35,7 @@ public class MainMenu : MonoBehaviour
         user.password = passwordInput.text;
 
         // Make the login API call and wait for the result
-        User userData = await networkController.PostUser<User>(path, user);
+        User userData = await networkController.LoginUser(path, user);
 
         // Process the result as needed
         if (userData != null)
@@ -69,21 +69,15 @@ public class MainMenu : MonoBehaviour
 
         // Make the login API call and wait for the result
         // if a user is returned let's just log them in 
-        User userData = await networkController.PostUser<User>(path, user);
+        MetaData apiData  = await networkController.RegisterUser(path, user);
 
         // TODO don't let user login until email is validated with an email confirmation
         // Process the result as needed
-        if (userData != null)
+        if (apiData != null && apiData.statusCode == 200)
         {
             // Handle successful login
             Debug.Log("Registration successful!");
-
-            // Store the user data in the UserDataHolder singleton
-            UserDataHolder.Instance.UserData = userData;
-
-            // Load the next scene in the scene manager
-            // You can also use SceneManager.LoadScene(sceneName) to load scenes by name
-            SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex + 1);
+            errorMessageText.text = "Registration Successful. Please continue to login.";
         }
         else
         {

@@ -1,21 +1,11 @@
 using System;
-
-// This class represents a Building in Unity
-[Serializable]
-public class Building
-{
-    public string name;
-    public float posX;
-    public float posY;
-    public float posZ;
-    public float width;
-    public float height;
-}
+using System.Collections.Generic;
 
 // This class represents a Base in Unity
 public class Base
 {
     public string ID;
     public string owner;
-    public Building[] buildings; // Array of buildings
+    public Dictionary<string, List<Building>> buildings; // Map of buildings to the type
+    public List<List<Building>> grid; // Representation of the map
 }
