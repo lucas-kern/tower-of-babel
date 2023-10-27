@@ -13,7 +13,7 @@ GameObject:
   - component: {fileID: 3427157320875087927}
   - component: {fileID: 350002283542465139}
   - component: {fileID: -4537986294851679498}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: GoldMine
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -117,3 +117,4 @@ MonoBehaviour:
     posZ: 0
     width: 0
     height: 0
+  defaultColor: {r: 0.7725491, g: 0.1764706, b: 0.20000002, a: 0}

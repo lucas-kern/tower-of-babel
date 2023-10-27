@@ -17,5 +17,6 @@ public class Building
 public class BuildingWrapper : MonoBehaviour
 {
     public Building buildingData;
+    public Color defaultColor;
 
 }

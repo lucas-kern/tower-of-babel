@@ -24,7 +24,6 @@ public class BuildingManager : MonoBehaviour
     private Base baseData;
     private User userData;
     public TextMeshProUGUI informationMessageText;
-
     private Dictionary<string, GameObject> BuildingPrefabMap = new Dictionary<string, GameObject>();
 
     // Start is called before the first frame update
@@ -65,9 +64,17 @@ public class BuildingManager : MonoBehaviour
             }
             else{ pendingObject.transform.position = pos; }
 
+            bool canPlace = CanPlaceBuildingHere(pendingObject, pendingObject.transform.position);
+
             if (Input.GetMouseButtonDown(0))
             {
-                PlaceObject();
+                if(canPlace){
+                    PlaceObject();
+                }
+                else {
+                    informationMessageText.text = "Building cannot be placed here";
+                    StartCoroutine(ResetInformationText(3.0f));
+                }
             }
         }
     }
@@ -102,6 +109,7 @@ public class BuildingManager : MonoBehaviour
 
                 if (updatedBase != null)
                 {
+                    objectRenderer.material.color = buildingComponent.defaultColor;
                     // Add the new building to the base data
                     baseData = updatedBase;
 
@@ -205,7 +213,7 @@ public class BuildingManager : MonoBehaviour
         }
     }
 
-        // Coroutine to reset the text to empty after a delay
+    // Coroutine to reset the text to empty after a delay
     private IEnumerator ResetInformationText(float delay)
     {
         yield return new WaitForSeconds(delay);
@@ -213,5 +221,86 @@ public class BuildingManager : MonoBehaviour
         {
             informationMessageText.text = "";
         }
+    }
+
+    // Instance method to check if a building can be placed in the current spot
+    public bool CanPlaceBuildingHere(GameObject buildingPrefab, Vector3 position)
+    {
+        // Try to get the Collider component attached to the buildingPrefab
+        Collider buildingCollider = buildingPrefab.GetComponent<Collider>();
+
+        if (buildingCollider != null)
+        {
+            Vector3 extents, center;
+            extents = GetColliderExtentsAndCenter(buildingCollider, out center);
+            // Calculate the size of the collider based on its type
+            // Vector3 extents = GetColliderExtents(buildingCollider);
+
+            // Temporarily disable the building's collider to prevent self-collision
+            buildingCollider.enabled = false;
+
+            // Create a LayerMask that excludes the GroundLayer
+            int groundLayer = LayerMask.NameToLayer("Ground");
+            LayerMask layerMask = ~(1 << groundLayer);
+
+            // Check if there are any colliders at the desired position, excluding the ground layer
+            Collider[] colliders = Physics.OverlapBox(position + center, extents, Quaternion.identity, layerMask);
+
+            // Temporarily enable the building's collider again
+            buildingCollider.enabled = true;
+
+            if (colliders.Length > 0)
+            {
+                // There are other colliders overlapping, so cannot place the building here
+                // Change the material/color to indicate invalid placement (red)
+                Renderer buildingRenderer = buildingPrefab.GetComponent<Renderer>();
+                if (buildingRenderer != null)
+                {
+                    buildingRenderer.material.color = Color.red;
+                }
+                return false;
+            }
+            else
+            {
+                // No other colliders overlapping, so can place the building here
+                // Change the material/color to indicate valid placement (green)
+                Renderer buildingRenderer = buildingPrefab.GetComponent<Renderer>();
+                if (buildingRenderer != null)
+                {
+                    buildingRenderer.material.color = Color.green;
+                }
+                return true;
+            }
+        }
+        else
+        {
+            Debug.LogError("Building prefab does not have a Collider component.");
+            return false;
+        }
+    }
+
+    // Helper method to get the extents of the collider based on its type
+    private Vector3 GetColliderExtentsAndCenter(Collider collider, out Vector3 center)
+    {
+        if (collider is BoxCollider boxCollider)
+        {
+            center = boxCollider.center;
+            return boxCollider.size / 2f;
+        }
+        else if (collider is SphereCollider sphereCollider)
+        {
+            center = Vector3.zero; // SphereCollider doesn't have a center property, so we assume it's at the origin
+            return Vector3.one * sphereCollider.radius;
+        }
+        else if (collider is CapsuleCollider capsuleCollider)
+        {
+            center = capsuleCollider.center;
+            return new Vector3(capsuleCollider.radius, capsuleCollider.height / 2, capsuleCollider.radius);
+        }
+        // Add more cases for other collider types as needed
+
+        // Default to a small extent and center at the origin if the collider type is not recognized
+        center = Vector3.zero;
+        return Vector3.one * 0.1f;
     }
 }

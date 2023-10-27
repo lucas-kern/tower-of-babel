@@ -13,7 +13,7 @@ GameObject:
   - component: {fileID: 1771471233511089844}
   - component: {fileID: 8325868833912804971}
   - component: {fileID: -8331473115943220171}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: Tower
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -95,7 +95,7 @@ CapsuleCollider:
   m_Material: {fileID: 0}
   m_IsTrigger: 0
   m_Enabled: 1
-  m_Radius: 0.5000001
+  m_Radius: 1
   m_Height: 2
   m_Direction: 1
   m_Center: {x: 0.000000059604645, y: 0, z: -0.00000008940697}
@@ -118,3 +118,4 @@ MonoBehaviour:
     posZ: 0
     width: 0
     height: 0
+  defaultColor: {r: 0.7725491, g: 0.1764706, b: 0.20000002, a: 0}
