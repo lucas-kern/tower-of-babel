@@ -66,7 +66,6 @@ public class NetworkManager
                 }
             }
 
-            Debug.Log(requestBody);
             uwr.SetRequestHeader("Content-Type", _serializationOption.ContentType);
 
             var operation = uwr.SendWebRequest();
@@ -86,13 +85,11 @@ public class NetworkManager
             if (operation.webRequest.responseCode == 200 && uwr.result == UnityWebRequest.Result.Success)
             {
                 response.data = _serializationOption.Deserialize<ApiResponse<TResultType>>(uwr.downloadHandler.text).data;
-                Debug.Log("we are in the result: " + response);
             }
             else
             {
                 Debug.LogError($"Request failed with response code: {operation.webRequest.responseCode}");
             }
-            Debug.Log("we are in the result: " + response);
             return response;
         }
         catch (Exception ex)

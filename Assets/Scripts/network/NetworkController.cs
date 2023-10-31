@@ -34,7 +34,7 @@ public class NetworkController : MonoBehaviour
                 // Add default headers here
                 headers.Add("Authorization", token);
                 var result = await networkManager.Post<TResultType, TRequestType>(url, requestData, headers);
-                Debug.Log(typeof(TResultType).Name);
+  
                 if (result.meta.statusCode < 500 && result.meta.statusCode != 401)
                 {
                     return result;
@@ -103,7 +103,6 @@ public class NetworkController : MonoBehaviour
             // by the caller of the method
             // For example, if T is User, then the result will be of type User
             // If T is some other type, then the result will be of that type
-            Debug.Log("Response: " + result.ToString());
             return result.data;
             // Handle the successful result
         }
@@ -130,7 +129,6 @@ public class NetworkController : MonoBehaviour
             // by the caller of the method
             // For example, if T is User, then the result will be of type User
             // If T is some other type, then the result will be of that type
-            Debug.Log("Response: " + result.ToString());
             return result.meta;
             // Handle the successful result
         }
@@ -148,8 +146,7 @@ public class NetworkController : MonoBehaviour
     {
         var endpoint = url + path;
         var result = await PostWithRetry<TResultType, TRequestType>(endpoint, data);
-        Debug.Log("In the Post object");
-        Debug.Log(result);
+
         if (result.data != null)
         {
             Debug.Log("POST request was successful!");

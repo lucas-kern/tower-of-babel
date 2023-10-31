@@ -32,7 +32,7 @@ public class JsonSerializationOption : ISerializationOption
         try
         {
             var result = JsonConvert.SerializeObject(obj);
-            Debug.Log($"Success: {result}");
+            Debug.Log("JSON Serialization was successful");
             return result;
         }
         catch(Exception ex)
