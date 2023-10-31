@@ -1,10 +1,9 @@
 using System;
 using UnityEngine;
+using Newtonsoft.Json;
 
 // This class handles serialization regarding JSON
 // example serialization and deserialization
-
-// TODO add serialization to send json in an API request
 
 public class JsonSerializationOption : ISerializationOption
 {
@@ -16,7 +15,7 @@ public class JsonSerializationOption : ISerializationOption
     {
         try
         {
-            var result = JsonUtility.FromJson<T>(text);
+            var result = JsonConvert.DeserializeObject<T>(text);
             Debug.Log($"Success: {text}");
             return result;
         }
@@ -32,8 +31,8 @@ public class JsonSerializationOption : ISerializationOption
     {
         try
         {
-            var result = JsonUtility.ToJson(obj);
-            Debug.Log($"Success: {result}");
+            var result = JsonConvert.SerializeObject(obj);
+            Debug.Log("JSON Serialization was successful");
             return result;
         }
         catch(Exception ex)
