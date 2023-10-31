@@ -17,7 +17,6 @@ public class BuildingManager : MonoBehaviour
     private RaycastHit hit;
     [SerializeField] private LayerMask layerMask;
     public float gridSize;
-    bool gridOn = true;
     [SerializeField] private Toggle gridToggle;
     public NetworkController networkController;
     public Transform buildingParent;
@@ -54,15 +53,12 @@ public class BuildingManager : MonoBehaviour
     {
         if(pendingObject != null)
         {
-            if(gridOn)
-            {
-                pendingObject.transform.position = new Vector3(
-                    RoundToNearestGrid(pos.x),
-                    RoundToNearestGrid(pos.y),
-                    RoundToNearestGrid(pos.z)
-                );
-            }
-            else{ pendingObject.transform.position = pos; }
+
+            pendingObject.transform.position = new Vector3(
+                RoundToNearestGrid(pos.x),
+                RoundToNearestGrid(pos.y),
+                RoundToNearestGrid(pos.z)
+            );
 
             bool canPlace = CanPlaceBuildingHere(pendingObject, pendingObject.transform.position);
 
@@ -153,16 +149,6 @@ public class BuildingManager : MonoBehaviour
         pendingObject = Instantiate(objects[index], pos, transform.rotation);
     }
 
-    // Turns on and off the grid to snap a building to
-    public void ToggleGrid()
-    {
-        if(gridToggle.isOn)
-        {
-            gridOn = true;
-        }
-        else{ gridOn = false; }
-    }
-
     // Rounds to the nearest grid to create a snapping effect
     float RoundToNearestGrid(float pos)
     {
@@ -237,9 +223,8 @@ public class BuildingManager : MonoBehaviour
         if (buildingCollider != null)
         {
             Vector3 extents, center;
-            extents = GetColliderExtentsAndCenter(buildingCollider, out center);
             // Calculate the size of the collider based on its type
-            // Vector3 extents = GetColliderExtents(buildingCollider);
+            extents = GetColliderExtentsAndCenter(buildingCollider, out center);
 
             // Temporarily disable the building's collider to prevent self-collision
             buildingCollider.enabled = false;
