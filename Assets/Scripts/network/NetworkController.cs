@@ -88,8 +88,8 @@ public class NetworkController : MonoBehaviour
             // Handle the failure or default result
         }
     }
-    //These user methods are strongly coded to the backend so if I chagne what is returned on backend these types also need to be updated is there something I can do to prevent that?
 
+    // Login a user and return the user's data
     public async Task<User> LoginUser(string path, User requestData)
     {
         var endpoint = url + path;
@@ -116,6 +116,7 @@ public class NetworkController : MonoBehaviour
         return default;
     }
 
+    // Register a user and return a success or error response
     public async Task<MetaData> RegisterUser(string path, User requestData)
     {
         var endpoint = url + path;
@@ -161,12 +162,13 @@ public class NetworkController : MonoBehaviour
         }
     }
 
+    // Place a building by posting it to the backend
+    // on success return a base
+    // on failure return a null
     public async Task<Base> PlaceBuilding(Building data)
     {
         var path = "bases/place";
         var result = await PostObject<Base, Building>(path, data);
-        Debug.Log("In the Place Building");
-        Debug.Log(result.Item2);
 
         if (result.Item1 == true && result.Item2 != null)
         {

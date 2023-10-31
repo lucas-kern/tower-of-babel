@@ -147,11 +147,13 @@ public class BuildingManager : MonoBehaviour
         }
     }
 
+    // Sets the object(building) to a pending object to be placed
     public void SelectObject(int index)
     {
         pendingObject = Instantiate(objects[index], pos, transform.rotation);
     }
 
+    // Turns on and off the grid to snap a building to
     public void ToggleGrid()
     {
         if(gridToggle.isOn)
@@ -160,6 +162,8 @@ public class BuildingManager : MonoBehaviour
         }
         else{ gridOn = false; }
     }
+
+    // Rounds to the nearest grid to create a snapping effect
     float RoundToNearestGrid(float pos)
     {
         float xDiff = pos % gridSize;
@@ -171,6 +175,7 @@ public class BuildingManager : MonoBehaviour
         return pos;
     }
 
+    // Load the base from the backend 
     private void LoadBaseObjects(Base baseData)
     {
         foreach (var buildingType in baseData.buildings)
