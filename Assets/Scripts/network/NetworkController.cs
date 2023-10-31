@@ -20,7 +20,7 @@ public class NetworkController : MonoBehaviour
         userData = UserDataHolder.Instance.UserData; 
     }
 
-//TODO This is hitting the token refresh post debug line every time even if the token isn't expired need to ensure that it only hits the refresh if it gets a 404 or something
+    // Send a post request to the backend and retry if it fails also will refresh token if it fails with an authentication error
     public async Task<ApiResponse<TResultType>> PostWithRetry<TResultType, TRequestType>(string url, TRequestType requestData)
     {
         var token = userData.token;
@@ -180,7 +180,7 @@ public class NetworkController : MonoBehaviour
         }
     }
 
-// TODO test this as I got as far as setting up to post the request data
+    // Refreshed the auth token using the refresh token 
     private async Task<bool> RefreshAuthToken()
     {
         var path = "/token";

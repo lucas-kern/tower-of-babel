@@ -11,7 +11,6 @@ public class ApiResponse<T>
 public class MetaData
 {
      public int statusCode; 
-    // TODO Define meta properties if needed
 }
 
 [Serializable]

@@ -79,7 +79,7 @@ public class BuildingManager : MonoBehaviour
         }
     }
 
-// TODO update this to send to the backend and save the data 
+    // Places the pending object(building) on the grid and sends it to the backend
     public async void PlaceObject()
     {
         if (pendingObject != null)

@@ -5,8 +5,6 @@ using Newtonsoft.Json;
 // This class handles serialization regarding JSON
 // example serialization and deserialization
 
-// TODO add serialization to send json in an API request
-
 public class JsonSerializationOption : ISerializationOption
 {
     // JSON content type for JSON serialization option
