@@ -64,8 +64,8 @@ public class MainMenu : MonoBehaviour
         User user = new User();
         user.email = emailInput.text;
         user.password = passwordInput.text;
-        user.first_name = firstNameInput.text;
-        user.last_name = lastNameInput.text;
+        user.firstName = firstNameInput.text;
+        user.lastName = lastNameInput.text;
 
         // Make the login API call and wait for the result
         // if a user is returned let's just log them in 

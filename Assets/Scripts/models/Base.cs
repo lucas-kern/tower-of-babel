@@ -2,10 +2,8 @@ using System;
 using System.Collections.Generic;
 
 // This class represents a Base in Unity
+// TODO test this after removing owner, ID and grid
 public class Base
 {
-    public string ID;
-    public string owner;
-    public Dictionary<string, List<Building>> buildings; // Map of buildings to the type
-    public List<List<Building>> grid; // Representation of the map
+    public Dictionary<string, List<Building>> placedBuildings; // Map of buildings to the type
 }

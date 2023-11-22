@@ -7,31 +7,42 @@ using TMPro;
 
 public class BuildingManager : MonoBehaviour
 {
-    public GameObject[] objects;
     public GameObject pendingObject;
-    public GameObject TowerPrefab;
-    public GameObject GoldMinePrefab;
-    public GameObject GoldStoragePrefab;
-
     private Vector3 pos;
     private RaycastHit hit;
     [SerializeField] private LayerMask layerMask;
     public float gridSize;
-    [SerializeField] private Toggle gridToggle;
     public NetworkController networkController;
     public Transform buildingParent;
     private Base baseData;
     private User userData;
     public TextMeshProUGUI informationMessageText;
-    private Dictionary<string, GameObject> BuildingPrefabMap = new Dictionary<string, GameObject>();
+    [SerializeField] private List<string> buildingNames;
+    [SerializeField] private List<GameObject> buildingPrefabs;
+
+    public Dictionary<string, GameObject> BuildingPrefabMap;
+
+    private void Awake()
+    {
+        BuildingPrefabMap = new Dictionary<string, GameObject>();
+
+        foreach (GameObject prefab in buildingPrefabs)
+        {
+            BuildingWrapper buildingWrapper = prefab.GetComponent<BuildingWrapper>();
+            if (buildingWrapper != null && buildingWrapper.buildingData != null)
+            {
+                BuildingPrefabMap.Add(buildingWrapper.buildingData.name, prefab);
+            }
+            else
+            {
+                Debug.LogError($"BuildingWrapper or Building data not found on prefab: {prefab.name}");
+            }
+        }
+    }
 
     // Start is called before the first frame update
     private void Start()
     {
-        // Populate the dictionary with building names and prefabs
-        BuildingPrefabMap.Add("tower", TowerPrefab);
-        BuildingPrefabMap.Add("goldmine", GoldMinePrefab);
-        BuildingPrefabMap.Add("goldstorage", GoldStoragePrefab);
         
         // Check if you have valid user data
         userData = UserDataHolder.Instance.UserData;
@@ -144,9 +155,22 @@ public class BuildingManager : MonoBehaviour
     }
 
     // Sets the object(building) to a pending object to be placed
-    public void SelectObject(int index)
+    public void SelectObject(string buildingName)
     {
-        pendingObject = Instantiate(objects[index], pos, transform.rotation);
+        // If there's already a pending object, destroy it
+        if (pendingObject != null)
+        {
+            Destroy(pendingObject);
+        }
+
+        if (BuildingPrefabMap.TryGetValue(buildingName, out GameObject prefab))
+        {
+            pendingObject = Instantiate(prefab, pos, transform.rotation);
+        }
+        else
+        {
+            Debug.LogError($"Prefab not found for building: {buildingName}");
+        }
     }
 
     // Rounds to the nearest grid to create a snapping effect
@@ -164,7 +188,11 @@ public class BuildingManager : MonoBehaviour
     // Load the base from the backend 
     private void LoadBaseObjects(Base baseData)
     {
-        foreach (var buildingType in baseData.buildings)
+        if (baseData.placedBuildings == null)
+        {
+            return;
+        }
+        foreach (var buildingType in baseData.placedBuildings)
         {
             string buildingName = buildingType.Key;
             List<Building> buildingsOfType = buildingType.Value;

@@ -4,13 +4,13 @@ using System;
 [Serializable]
 public class User
 {
-    public string user_id;
-    public string first_name;
-    public string last_name;
+    public string userId;
+    public string firstName;
+    public string lastName;
     public string password;
     public string email;
     public string token;
-    public string refresh_token;
+    public string refreshToken;
     public bool Completed;
     public Base Base;
 }

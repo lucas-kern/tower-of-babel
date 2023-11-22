@@ -16,7 +16,7 @@ public class MetaData
 [Serializable]
 public class TokenRefreshData
 {
-    public string user_id;
-    public string refresh_token;
+    public string userId;
+    public string refreshToken;
     public string token;
 }

@@ -184,8 +184,8 @@ public class NetworkController : MonoBehaviour
     {
         var path = "/token";
         var endpoint = url + path;
-        var refreshToken = userData.refresh_token;
-        var userID = userData.user_id;
+        var refreshToken = userData.refreshToken;
+        var userID = userData.userId;
 
 
         try
@@ -193,7 +193,7 @@ public class NetworkController : MonoBehaviour
             // Create an instance of TokenRefreshRequestData and set its properties
             var headers = new Dictionary<string, string>();
             // Add default headers here
-            headers.Add("refresh_token", refreshToken);
+            headers.Add("refreshToken", refreshToken);
            
             var result = await networkManager.Get<TokenRefreshData>(endpoint, headers);
 
@@ -201,7 +201,7 @@ public class NetworkController : MonoBehaviour
             {
                 Debug.Log("Token Refresh request was successful!");
                 userData.token = result.data.token;
-                userData.refresh_token = result.data.refresh_token;
+                userData.refreshToken = result.data.refreshToken;
                 return true; // Return true to indicate success
             }
             else
